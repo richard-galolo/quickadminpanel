@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\User;
 
 use App\Models\Role;
-use App\Models\Team;
 use App\Models\User;
 use Livewire\Component;
 
@@ -66,17 +65,11 @@ class Create extends Component
                 'string',
                 'nullable',
             ],
-            'user.team_id' => [
-                'integer',
-                'exists:teams,id',
-                'nullable',
-            ],
         ];
     }
 
     protected function initListsForFields(): void
     {
         $this->listsForFields['roles'] = Role::pluck('title', 'id')->toArray();
-        $this->listsForFields['team']  = Team::pluck('name', 'id')->toArray();
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\User;
+namespace App\Http\Livewire\FaqQuestion;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
-use App\Models\User;
+use App\Models\FaqQuestion;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -62,35 +62,35 @@ class Index extends Component
         $this->sortDirection     = 'desc';
         $this->perPage           = 100;
         $this->paginationOptions = config('project.pagination.options');
-        $this->orderable         = (new User())->orderable;
+        $this->orderable         = (new FaqQuestion())->orderable;
     }
 
     public function render()
     {
-        $query = User::with(['roles'])->advancedFilter([
+        $query = FaqQuestion::with(['category'])->advancedFilter([
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
         ]);
 
-        $users = $query->paginate($this->perPage);
+        $faqQuestions = $query->paginate($this->perPage);
 
-        return view('livewire.user.index', compact('query', 'users'));
+        return view('livewire.faq-question.index', compact('faqQuestions', 'query'));
     }
 
     public function deleteSelected()
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('faq_question_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        User::whereIn('id', $this->selected)->delete();
+        FaqQuestion::whereIn('id', $this->selected)->delete();
 
         $this->resetSelected();
     }
 
-    public function delete(User $user)
+    public function delete(FaqQuestion $faqQuestion)
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('faq_question_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->delete();
+        $faqQuestion->delete();
     }
 }

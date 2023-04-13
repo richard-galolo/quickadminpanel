@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Support\HasAdvancedFilter;
-use App\Traits\HasTeam;
 use Carbon\Carbon;
 use DateTimeInterface;
 use Hash;
@@ -17,7 +16,7 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements HasLocalePreference, MustVerifyEmail
 {
-    use HasFactory, HasAdvancedFilter, Notifiable, HasTeam, SoftDeletes;
+    use HasFactory, HasAdvancedFilter, Notifiable, SoftDeletes;
 
     public $table = 'users';
 
@@ -31,7 +30,14 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
         'email',
         'password',
         'locale',
-        'team_id',
+    ];
+
+    public $orderable = [
+        'id',
+        'name',
+        'email',
+        'email_verified_at',
+        'locale',
     ];
 
     protected $dates = [
@@ -41,15 +47,6 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
         'deleted_at',
     ];
 
-    public $orderable = [
-        'id',
-        'name',
-        'email',
-        'email_verified_at',
-        'locale',
-        'team.name',
-    ];
-
     public $filterable = [
         'id',
         'name',
@@ -57,7 +54,6 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
         'email_verified_at',
         'roles.title',
         'locale',
-        'team.name',
     ];
 
     public function getIsAdminAttribute()
@@ -115,10 +111,5 @@ class User extends Authenticatable implements HasLocalePreference, MustVerifyEma
     public function getDeletedAtAttribute($value)
     {
         return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('project.datetime_format')) : null;
-    }
-
-    public function team()
-    {
-        return $this->belongsTo(Team::class);
     }
 }

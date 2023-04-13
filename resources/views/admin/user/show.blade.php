@@ -71,16 +71,6 @@
                                 {{ $user->locale }}
                             </td>
                         </tr>
-                        <tr>
-                            <th>
-                                {{ trans('cruds.user.fields.team') }}
-                            </th>
-                            <td>
-                                @if($user->team)
-                                    <span class="badge badge-relationship">{{ $user->team->name ?? '' }}</span>
-                                @endif
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
