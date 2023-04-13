@@ -8,16 +8,16 @@
                 @endforeach
             </select>
 
-            @can('user_delete')
+            @can('faq_category_delete')
                 <button class="btn btn-rose ml-3 disabled:opacity-50 disabled:cursor-not-allowed" type="button" wire:click="confirm('deleteSelected')" wire:loading.attr="disabled" {{ $this->selectedCount ? '' : 'disabled' }}>
                     {{ __('Delete Selected') }}
                 </button>
             @endcan
 
             @if(file_exists(app_path('Http/Livewire/ExcelExport.php')))
-                <livewire:excel-export model="User" format="csv" />
-                <livewire:excel-export model="User" format="xlsx" />
-                <livewire:excel-export model="User" format="pdf" />
+                <livewire:excel-export model="FaqCategory" format="csv" />
+                <livewire:excel-export model="FaqCategory" format="xlsx" />
+                <livewire:excel-export model="FaqCategory" format="pdf" />
             @endif
 
 
@@ -41,76 +41,43 @@
                         <th class="w-9">
                         </th>
                         <th class="w-28">
-                            {{ trans('cruds.user.fields.id') }}
+                            {{ trans('cruds.faqCategory.fields.id') }}
                             @include('components.table.sort', ['field' => 'id'])
                         </th>
                         <th>
-                            {{ trans('cruds.user.fields.name') }}
-                            @include('components.table.sort', ['field' => 'name'])
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.email') }}
-                            @include('components.table.sort', ['field' => 'email'])
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.email_verified_at') }}
-                            @include('components.table.sort', ['field' => 'email_verified_at'])
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.roles') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.user.fields.locale') }}
-                            @include('components.table.sort', ['field' => 'locale'])
+                            {{ trans('cruds.faqCategory.fields.category') }}
+                            @include('components.table.sort', ['field' => 'category'])
                         </th>
                         <th>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($users as $user)
+                    @forelse($faqCategories as $faqCategory)
                         <tr>
                             <td>
-                                <input type="checkbox" value="{{ $user->id }}" wire:model="selected">
+                                <input type="checkbox" value="{{ $faqCategory->id }}" wire:model="selected">
                             </td>
                             <td>
-                                {{ $user->id }}
+                                {{ $faqCategory->id }}
                             </td>
                             <td>
-                                {{ $user->name }}
-                            </td>
-                            <td>
-                                <a class="link-light-blue" href="mailto:{{ $user->email }}">
-                                    <i class="far fa-envelope fa-fw">
-                                    </i>
-                                    {{ $user->email }}
-                                </a>
-                            </td>
-                            <td>
-                                {{ $user->email_verified_at }}
-                            </td>
-                            <td>
-                                @foreach($user->roles as $key => $entry)
-                                    <span class="badge badge-relationship">{{ $entry->title }}</span>
-                                @endforeach
-                            </td>
-                            <td>
-                                {{ $user->locale }}
+                                {{ $faqCategory->category }}
                             </td>
                             <td>
                                 <div class="flex justify-end">
-                                    @can('user_show')
-                                        <a class="btn btn-sm btn-info mr-2" href="{{ route('admin.users.show', $user) }}">
+                                    @can('faq_category_show')
+                                        <a class="btn btn-sm btn-info mr-2" href="{{ route('admin.faq-categories.show', $faqCategory) }}">
                                             {{ trans('global.view') }}
                                         </a>
                                     @endcan
-                                    @can('user_edit')
-                                        <a class="btn btn-sm btn-success mr-2" href="{{ route('admin.users.edit', $user) }}">
+                                    @can('faq_category_edit')
+                                        <a class="btn btn-sm btn-success mr-2" href="{{ route('admin.faq-categories.edit', $faqCategory) }}">
                                             {{ trans('global.edit') }}
                                         </a>
                                     @endcan
-                                    @can('user_delete')
-                                        <button class="btn btn-sm btn-rose mr-2" type="button" wire:click="confirm('delete', {{ $user->id }})" wire:loading.attr="disabled">
+                                    @can('faq_category_delete')
+                                        <button class="btn btn-sm btn-rose mr-2" type="button" wire:click="confirm('delete', {{ $faqCategory->id }})" wire:loading.attr="disabled">
                                             {{ trans('global.delete') }}
                                         </button>
                                     @endcan
@@ -137,7 +104,7 @@
                     {{ __('Entries selected') }}
                 </p>
             @endif
-            {{ $users->links() }}
+            {{ $faqCategories->links() }}
         </div>
     </div>
 </div>

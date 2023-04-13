@@ -50,16 +50,6 @@
             {{ trans('cruds.user.fields.locale_helper') }}
         </div>
     </div>
-    <div class="form-group {{ $errors->has('user.team_id') ? 'invalid' : '' }}">
-        <label class="form-label" for="team">{{ trans('cruds.user.fields.team') }}</label>
-        <x-select-list class="form-control" id="team" name="team" :options="$this->listsForFields['team']" wire:model="user.team_id" />
-        <div class="validation-message">
-            {{ $errors->first('user.team_id') }}
-        </div>
-        <div class="help-block">
-            {{ trans('cruds.user.fields.team_helper') }}
-        </div>
-    </div>
 
     <div class="form-group">
         <button class="btn btn-indigo mr-2" type="submit">

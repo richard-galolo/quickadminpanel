@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\User;
+namespace App\Http\Livewire\FaqCategory;
 
 use App\Http\Livewire\WithConfirmation;
 use App\Http\Livewire\WithSorting;
-use App\Models\User;
+use App\Models\FaqCategory;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -62,35 +62,35 @@ class Index extends Component
         $this->sortDirection     = 'desc';
         $this->perPage           = 100;
         $this->paginationOptions = config('project.pagination.options');
-        $this->orderable         = (new User())->orderable;
+        $this->orderable         = (new FaqCategory())->orderable;
     }
 
     public function render()
     {
-        $query = User::with(['roles'])->advancedFilter([
+        $query = FaqCategory::advancedFilter([
             's'               => $this->search ?: null,
             'order_column'    => $this->sortBy,
             'order_direction' => $this->sortDirection,
         ]);
 
-        $users = $query->paginate($this->perPage);
+        $faqCategories = $query->paginate($this->perPage);
 
-        return view('livewire.user.index', compact('query', 'users'));
+        return view('livewire.faq-category.index', compact('faqCategories', 'query'));
     }
 
     public function deleteSelected()
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('faq_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        User::whereIn('id', $this->selected)->delete();
+        FaqCategory::whereIn('id', $this->selected)->delete();
 
         $this->resetSelected();
     }
 
-    public function delete(User $user)
+    public function delete(FaqCategory $faqCategory)
     {
-        abort_if(Gate::denies('user_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('faq_category_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $user->delete();
+        $faqCategory->delete();
     }
 }

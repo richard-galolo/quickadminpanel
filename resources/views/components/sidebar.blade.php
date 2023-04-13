@@ -22,7 +22,11 @@
                 </div>
             </div>
 
-
+            <form class="mt-6 mb-4 md:hidden">
+                <div class="mb-3 pt-0">
+                    @livewire('global-search')
+                </div>
+            </form>
 
             <!-- Divider -->
             <div class="flex md:hidden">
@@ -43,7 +47,7 @@
 
                 @can('user_management_access')
                     <li class="items-center">
-                        <a class="has-sub {{ request()->is("admin/permissions*")||request()->is("admin/roles*")||request()->is("admin/users*")||request()->is("admin/teams*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                        <a class="has-sub {{ request()->is("admin/permissions*")||request()->is("admin/roles*")||request()->is("admin/users*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
                             <i class="fa-fw fas c-sidebar-nav-icon fa-users">
                             </i>
                             {{ trans('cruds.userManagement.title') }}
@@ -76,121 +80,38 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('team_access')
-                                <li class="items-center">
-                                    <a class="{{ request()->is("admin/teams*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.teams.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-users">
-                                        </i>
-                                        {{ trans('cruds.team.title') }}
-                                    </a>
-                                </li>
-                            @endcan
                         </ul>
                     </li>
                 @endcan
-                @can('post_access')
+                @can('faq_management_access')
                     <li class="items-center">
-                        <a class="{{ request()->is("admin/posts*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.posts.index") }}">
-                            <i class="fa-fw c-sidebar-nav-icon fas fa-cogs">
+                        <a class="has-sub {{ request()->is("admin/faq-categories*")||request()->is("admin/faq-questions*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
+                            <i class="fa-fw fas c-sidebar-nav-icon fa-question">
                             </i>
-                            {{ trans('cruds.post.title') }}
-                        </a>
-                    </li>
-                @endcan
-                @can('basic_c_r_m_access')
-                    <li class="items-center">
-                        <a class="has-sub {{ request()->is("admin/crm-statuses*")||request()->is("admin/crm-customers*")||request()->is("admin/crm-notes*")||request()->is("admin/crm-documents*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-briefcase">
-                            </i>
-                            {{ trans('cruds.basicCRM.title') }}
+                            {{ trans('cruds.faqManagement.title') }}
                         </a>
                         <ul class="ml-4 subnav hidden">
-                            @can('crm_status_access')
+                            @can('faq_category_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/crm-statuses*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.crm-statuses.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-folder">
+                                    <a class="{{ request()->is("admin/faq-categories*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.faq-categories.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-briefcase">
                                         </i>
-                                        {{ trans('cruds.crmStatus.title') }}
+                                        {{ trans('cruds.faqCategory.title') }}
                                     </a>
                                 </li>
                             @endcan
-                            @can('crm_customer_access')
+                            @can('faq_question_access')
                                 <li class="items-center">
-                                    <a class="{{ request()->is("admin/crm-customers*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.crm-customers.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-user-plus">
+                                    <a class="{{ request()->is("admin/faq-questions*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.faq-questions.index") }}">
+                                        <i class="fa-fw c-sidebar-nav-icon fas fa-question">
                                         </i>
-                                        {{ trans('cruds.crmCustomer.title') }}
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('crm_note_access')
-                                <li class="items-center">
-                                    <a class="{{ request()->is("admin/crm-notes*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.crm-notes.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-sticky-note">
-                                        </i>
-                                        {{ trans('cruds.crmNote.title') }}
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('crm_document_access')
-                                <li class="items-center">
-                                    <a class="{{ request()->is("admin/crm-documents*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.crm-documents.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-folder">
-                                        </i>
-                                        {{ trans('cruds.crmDocument.title') }}
+                                        {{ trans('cruds.faqQuestion.title') }}
                                     </a>
                                 </li>
                             @endcan
                         </ul>
                     </li>
                 @endcan
-                @can('product_management_access')
-                    <li class="items-center">
-                        <a class="has-sub {{ request()->is("admin/product-categories*")||request()->is("admin/product-tags*")||request()->is("admin/products*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="#" onclick="window.openSubNav(this)">
-                            <i class="fa-fw fas c-sidebar-nav-icon fa-shopping-cart">
-                            </i>
-                            {{ trans('cruds.productManagement.title') }}
-                        </a>
-                        <ul class="ml-4 subnav hidden">
-                            @can('product_category_access')
-                                <li class="items-center">
-                                    <a class="{{ request()->is("admin/product-categories*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.product-categories.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-folder">
-                                        </i>
-                                        {{ trans('cruds.productCategory.title') }}
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('product_tag_access')
-                                <li class="items-center">
-                                    <a class="{{ request()->is("admin/product-tags*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.product-tags.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-folder">
-                                        </i>
-                                        {{ trans('cruds.productTag.title') }}
-                                    </a>
-                                </li>
-                            @endcan
-                            @can('product_access')
-                                <li class="items-center">
-                                    <a class="{{ request()->is("admin/products*") ? "sidebar-nav-active" : "sidebar-nav" }}" href="{{ route("admin.products.index") }}">
-                                        <i class="fa-fw c-sidebar-nav-icon fas fa-shopping-cart">
-                                        </i>
-                                        {{ trans('cruds.product.title') }}
-                                    </a>
-                                </li>
-                            @endcan
-                        </ul>
-                    </li>
-                @endcan
-                @if(file_exists(app_path('Http/Controllers/Auth/UserTeamController.php')))
-                    <li class="items-center">
-                        <a href="{{ route("team.show") }}" class="{{ request()->is("team") ? "sidebar-nav-active" : "sidebar-nav" }}">
-                            <i class="fa-fw c-sidebar-nav-icon fas fa-user-friends"></i>
-                            {{ trans('global.my_team') }}
-                        </a>
-                    </li>
-                @endif
-
 
                 @if(file_exists(app_path('Http/Controllers/Auth/UserProfileController.php')))
                     @can('auth_profile_edit')
